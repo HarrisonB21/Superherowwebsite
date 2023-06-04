@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Talk To Heroes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Foldit:wght@500&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="loading">
+        <div id="spinner"></div>
+    </div>
+    <div id="particles-js"></div>
+    <div id="box">
+        <div class="box1 onlywide animated bounceOutLeft" style="animation-delay:1.7s;"></div>
+        <div class="box2 onlywide animated bounceOutLeft" style="animation-delay:1.8s;"></div>
+        <div class="box2 onlywide animated bounceOutLeft" style="animation-delay:1.9s;"></div>
+        <div class="box2 animated bounceOutRight" style="animation-delay:1.9s;"></div>
+        <div class="box2 onlywide animated bounceOutRight" style="animation-delay:1.8s;"></div>
+        <div class="box2 onlywide animated bounceOutRight" style="animation-delay:1.7s;"></div>
+    </div>
+    <a id="about" onclick="showabout()" class="animated fadeIn" style="animation-delay:2.2s;">about</a>
+    <a id="work" onclick="showwork()" class="animated fadeIn" style="animation-delay:2.2s;">work</a>
+    <a id="contact" onclick="showcontact()" class="animated fadeIn" style="animation-delay:2.2s;">contact</a>
+    <div id="middle" class="animated slideInDown" style="animation-delay:2.0s;">
+        <h1><span>Talk To Heroes</span></h1>
+        <div id="menu">
+            <a onclick="showabout()">about</a>
+            <a onclick="showwork()">work</a>
+            <a onclick="showcontact()">contact</a>
+        </div>
+        <table>
+            <tr>
+                <td class="animated zoomIn" style="animation-delay:2.2s;"><a class="social"><i class="fab fa-facebook"></i></a></td>
+                <td class="animated zoomIn" style="animation-delay:2.4s;"><a class="social"><i class="fab fa-twitter"></i></a></td>
+                <td class="animated zoomIn" style="animation-delay:2.6s;"><a class="social"><i class="fab fa-instagram"></i></a></td>
+                <td class="animated zoomIn" style="animation-delay:2.8s;"><a class="social"><i class="fab fa-dribbble"></i></a></td>
+            </tr>
+        </table>
+    </div>
+        
+    <div id="work_container" class="container">
+        <div onclick="closework()"><i class="fas fa-angle-right"></i></div>
+        <h1>Questions.</h1>
+        <section>
+            <h2>Ask me</h2>
+            <p>
+                <input type="text" id="superhero-name" placeholder="Name of Hero" required>
+                <button class="btn_two" onclick="getSuperheroInfo()">send</button>
+            </p>
+            <div id="superhero-info"></div>
+        </section>
+    </div>
+    
+    <div id="about_container" class="container">
+        <div onclick="closeabout()"><i class="fas fa-angle-left"></i></div>
+        <h1>about.</h1>
+        <section>
+            <h2>About Our Superhero Question Platform</h2>
+            <p>
+                Welcome to our innovative website, a one-of-a-kind platform that connects users with their favorite superheroes! Our platform serves as a gateway for all superhero enthusiasts to ask questions and obtain answers directly from their beloved fictional characters. With the power of cutting-edge technology, we have harnessed the capabilities of an advanced API that grants access to a vast database of superhero knowledge.
+            </p>
+            <h2>Our Mission</h2>
+            <p>
+                Our mission is to bridge the gap between fans and superheroes, empowering individuals to explore their curiosity and engage in meaningful interactions with their admired fictional heroes. We aim to provide an immersive experience that brings the world of superheroes to life, ensuring that every user's questions are met with accurate and authentic responses.
+            </p>
+            <h2>How It Works</h2>
+            <p>
+                At the core of our platform lies a robust and comprehensive API, meticulously curated to encompass an extensive collection of superhero data. This API serves as the backbone of our question-and-answer system, enabling users to inquire about various aspects of their favorite superheroes' lives, abilities, origins, and much more.
+            </p>
+            <p>
+                When you submit a question on our platform, our intelligent system analyzes the query and matches it with the most relevant superhero within our database. Utilizing state-of-the-art natural language processing algorithms, we ensure that your question is understood accurately and quickly.
+            </p>
+            <p>
+                Once the appropriate superhero is identified, our API retrieves the necessary information from its extensive knowledge base. This includes details from comic books, movies, TV shows, and other reliable sources. The API then generates a personalized response, providing you with a direct answer to your inquiry.
+            </p>
+        </section>
+    </div>
+    
+    <div id="contact_container" class="container">
+        <div onclick="closecontact()"><i class="fas fa-angle-down"></i></div>
+        <h1>contact.</h1>
+        <section>
+            <h2>Contact Me</h2>
+            <p>
+                <form>
+                    <input type="text" placeholder="name" required>
+                    <input type="email" placeholder="email" required><br>
+                    <textarea placeholder="your message" required rows="5"></textarea><br>
+                    <button class="btn_two">send</button>
+                </form>
+            </p>
+        </section>
+    </div>
+    
+    <script>
+        function getSuperheroInfo() {
+          var superheroName = document.getElementById("superhero-name").value;
+          var apiKey = "277757148046294"; // Replace with your actual Superhero API key
+          var apiUrl = "https://cors-anywhere.herokuapp.com/https://superheroapi.com/api/" + apiKey + "/search/" + superheroName;
+
+    
+          axios.get(apiUrl)
+            .then(function (response) {
+              var data = response.data;
+              if (data.response === "success" && data.results.length > 0) {
+                var superhero = data.results[0];
+    
+                var superheroInfo = document.getElementById("superhero-info");
+                superheroInfo.innerHTML = "";
+    
+                var table = document.createElement("table");
+    
+                // Display the desired data entries
+                var entriesToShow = ["name", "powerstats", "biography", "appearance", "work"];
+                entriesToShow.forEach(function (entry) {
+                  var row = document.createElement("tr");
+                  var keyCell = document.createElement("td");
+                  keyCell.textContent = entry;
+                  var valueCell = document.createElement("td");
+                  valueCell.textContent = superhero[entry];
+                  row.appendChild(keyCell);
+                  row.appendChild(valueCell);
+                  table.appendChild(row);
+                });
+    
+                superheroInfo.appendChild(table);
+              } else {
+                document.getElementById("superhero-info").textContent = "No superhero found.";
+              }
+            })
+            .catch(function (error) {
+              console.log("Error retrieving superhero information:", error);
+              document.getElementById("superhero-info").textContent = "Error retrieving superhero information.";
+            });
+        }
+      </script>
+</body>
+</html>
